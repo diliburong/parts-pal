@@ -7,4 +7,17 @@ export default defineConfig({
     browserField: false,
     mainFields: ['module', 'jsnext:main', 'jsnext'],
   },
+  build: {
+    rollupOptions: {
+      external: ['better-sqlite3']
+      // plugins: [
+      //   // eslint-disable-next-line @typescript-eslint/no-var-requires
+      //   require('@rollup/plugin-commonjs')({
+      //     dynamicRequireTargets: [
+      //       'node_modules/better-sqlite3/**/*.node'
+      //     ]
+      //   })
+      // ]
+    }
+  }
 });

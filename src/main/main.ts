@@ -1,5 +1,6 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, ipcMain } from 'electron';
 import path from 'path';
+import { readAll } from './database/userManager';
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -36,6 +37,14 @@ const createWindow = () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
+  // https://stackoverflow.com/questions/72918931/best-practice-to-use-sqlite-with-electron
+  ipcMain.handle('todo:getAll', async()=>{
+    return readAll();
+  });
+
+  // const db = getSqlite3();
+  // console.log(JSON.stringify(db))
+
   createWindow()
 })
 

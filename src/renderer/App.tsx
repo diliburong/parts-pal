@@ -1,14 +1,38 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import reactLogo from '../assets/react.svg'
 // import viteLogo from '/electron-vite.animate.svg'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
+  const [data, setData] = useState<{
+    id: number
+    name: string
+  }[]>([]);
+
+  useEffect(()=>{
+    const fetchData = async ()=>{
+      const result = await window.sqlite?.readAll();
+      if (result) {
+        setData(result);
+      }
+
+      console.log(result)
+    }
+
+    fetchData();
+  }, [])
 
   return (
     <>
       <div className='bg-red-500'>
+        {
+          data.map(item=>(
+            <div>
+              {item.name}
+            </div>
+          ))
+        }
         <a href="https://electron-vite.github.io" target="_blank">
           {/* <img src={viteLogo} className="logo" alt="Vite logo" /> */}
         </a>
