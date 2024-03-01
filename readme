@@ -1,0 +1,4 @@
+## problem
+## typeorm
+you should use version v0.3.14 to fix Export 'BSON' is not defined
+https://github.com/typeorm/typeorm/issues/10370

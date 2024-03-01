@@ -2,6 +2,7 @@
 // https://www.electronjs.org/docs/latest/tutorial/process-model#preload-scripts
 
 import { contextBridge, ipcRenderer } from "electron";
+import { User } from "./entity/User";
 
 // --------- Expose some API to the Renderer process ---------
 //  You never want to directly expose the entire ipcRenderer module via preload. This would give your renderer the ability to send arbitrary IPC messages to the main process, which becomes a powerful attack vector for malicious code.
@@ -14,9 +15,14 @@ contextBridge.exposeInMainWorld("versions", {
   // we can also expose variables, not just functions
 });
 
-contextBridge.exposeInMainWorld("sqlite", {
-  readAll: () => ipcRenderer.invoke('todo:getAll'),
-});
+const sqliteApi = {
+  insertUser: () => ipcRenderer.invoke('todo:insertUser'),
+  findAll: ():Promise<User[]> => ipcRenderer.invoke('todo:findAll'),
+};
+
+export type SqliteApi = typeof sqliteApi;
+
+contextBridge.exposeInMainWorld("sqlite", sqliteApi);
 
 // `exposeInMainWorld` can't detect attributes and methods of `prototype`, manually patching it.
 function withPrototype(obj: Record<string, any>) {

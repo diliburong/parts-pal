@@ -1,9 +1,13 @@
-import { app, BrowserWindow, ipcMain } from 'electron';
-import path from 'path';
-import { readAll } from './database/userManager';
+import { app, BrowserWindow, ipcMain } from "electron";
+import path from "path";
+// import { readAll } from './database/userManager';
+import "reflect-metadata";
+
+import { AppDataSource } from "./dataSource";
+import { findAll, insertUser } from "./service";
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
-if (require('electron-squirrel-startup')) {
+if (require("electron-squirrel-startup")) {
   app.quit();
 }
 
@@ -13,51 +17,73 @@ const createWindow = () => {
     width: 800,
     height: 600,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
+      preload: path.join(__dirname, "preload.js"),
     },
   });
 
   // Test active push message to Renderer-process.
-  mainWindow.webContents.on('did-finish-load', () => {
-    mainWindow?.webContents.send('main-process-message', (new Date).toLocaleString())
-  })
+  mainWindow.webContents.on("did-finish-load", () => {
+    mainWindow?.webContents.send(
+      "main-process-message",
+      new Date().toLocaleString()
+    );
+  });
 
   // and load the index.html of the app.
   if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
     mainWindow.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL);
   } else {
-    mainWindow.loadFile(path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`));
+    mainWindow.loadFile(
+      path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`)
+    );
   }
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
 };
 
+const initDb = async () => {
+  try {
+    if (!AppDataSource.isInitialized) {
+      const res = await AppDataSource.initialize();
+
+      console.log("db init");
+    }
+  } catch (error) {
+    console.log(error, "err");
+  }
+};
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.whenReady().then(() => {
+app.whenReady().then(async () => {
   // https://stackoverflow.com/questions/72918931/best-practice-to-use-sqlite-with-electron
-  ipcMain.handle('todo:getAll', async()=>{
-    return readAll();
+  ipcMain.handle("todo:insertUser", async () => {
+    return await insertUser();
   });
 
+  ipcMain.handle('todo:findAll', findAll);
+
+  await initDb();
+  // const r  = await findAll();
+  // console.log(r,'r')
   // const db = getSqlite3();
   // console.log(JSON.stringify(db))
 
-  createWindow()
-})
+  createWindow();
+});
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
+app.on("window-all-closed", () => {
+  if (process.platform !== "darwin") {
     app.quit();
   }
 });
 
-app.on('activate', () => {
+app.on("activate", () => {
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (BrowserWindow.getAllWindows().length === 0) {

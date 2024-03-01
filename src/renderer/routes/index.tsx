@@ -1,6 +1,7 @@
 import { Route, Routes, useNavigate, useRoutes } from "react-router-dom";
 
 import { Tab, Button, Tabs, Link, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@nextui-org/react";
+import { Users } from '../features/users';
 
 const routesMap = [
   {
@@ -10,7 +11,7 @@ const routesMap = [
   },
   {
     path: "/two",
-    element: <div>two</div>,
+    element: <Users />,
     exact: true,
   },
 ];
@@ -20,9 +21,16 @@ export const AppRoutes = () => {
 
   const element = useRoutes([...routesMap]);
   const navigate = useNavigate();
+
+  const handleBtnClick = async () => {
+    const result = await window.sqlite.insertUser();
+
+    console.log(result);
+  }
+
   return (
     <>
-      <Button>Button</Button>
+      <Button onClick={handleBtnClick}>Button</Button>
       <div className="flex flex-col">
         <Link href="/">Home</Link>
         <Link href="/two">About</Link>
@@ -38,7 +46,6 @@ export const AppRoutes = () => {
       </Dropdown>
 
       {element}
-
     </>
   );
 };

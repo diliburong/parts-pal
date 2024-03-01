@@ -1,18 +1,14 @@
 // Used in Renderer process, expose in `preload.ts`
 
-// import { sqlite } from './main/preload';
-interface IElectronAPI {
-  loadPreferences: () => Promise<void>,
-}
+import { User } from "./main/entity/User";
+import type { SqliteApi } from "./main/preload";
 
 declare global {
   interface Window {
     ipcRenderer: import("electron").IpcRenderer;
     versions: any;
-    sqlite: {
-      readAll: () => Promise<{id: number; name: string}[]>;
-    };
+    sqlite: SqliteApi;
   }
 }
 
-export {}
+export {};

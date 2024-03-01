@@ -15,8 +15,11 @@
     "outDir": "dist",
     "moduleResolution": "node",
     "resolveJsonModule": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    // "strictPropertyInitialization": false,
     "paths": {
-      "@/*": ["./src/renderer/*"],
+      "@/*": ["./src/renderer/*"]
     }
   },
   "include": ["src/**/*"]
