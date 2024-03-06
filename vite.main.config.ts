@@ -9,7 +9,7 @@ export default defineConfig({
   },
   build: {
     rollupOptions: {
-      // 不要将一下内容build
+      // 不要将以下内容build
       // 1. better-sqlite3与roll build不兼容
       // 2. typeorm重新build会导致执行插入的时候Error: Cannot find module './InsertQueryBuilder
       external: ['better-sqlite3', 'typeorm']

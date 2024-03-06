@@ -66,10 +66,6 @@ app.whenReady().then(async () => {
   ipcMain.handle('todo:findAll', findAll);
 
   await initDb();
-  // const r  = await findAll();
-  // console.log(r,'r')
-  // const db = getSqlite3();
-  // console.log(JSON.stringify(db))
 
   createWindow();
 });

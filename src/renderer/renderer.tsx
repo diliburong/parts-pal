@@ -27,10 +27,9 @@
  */
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { HashRouter as RouterProvider } from "react-router-dom";
+import { HashRouter as RouterProvider } from 'react-router-dom';
 
 import App from './App';
-
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
@@ -38,17 +37,16 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       <App />
     </RouterProvider>
   </React.StrictMode>,
-)
+);
 
 // Remove Preload scripts loading
-postMessage({ payload: 'removeLoading' }, '*')
+postMessage({ payload: 'removeLoading' }, '*');
 
 // Use contextBridge
 window.ipcRenderer.on('main-process-message', (_event, message) => {
-  console.log(message)
-})
+  console.log(message);
+});
 
-console.log(window.versions)
-
+console.log(window.versions.supabaseUrl);
 
 console.log('👋 This message is being logged by "renderer.ts", included via Vite');

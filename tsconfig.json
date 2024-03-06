@@ -1,8 +1,16 @@
 {
+  // https://github.com/electron/forge/issues/3317
+  "ts-node": {
+    // these options are overrides used only by ts-node
+    // same as our --compilerOptions flag and our TS_NODE_COMPILER_OPTIONS environment variable
+    "compilerOptions": {
+      "module": "commonjs"
+    }
+  },
   "compilerOptions": {
-    "target": "ESNext",
-    "module": "CommonJS",
-    "lib": ["dom", "esnext"],
+    "target": "esnext",
+    "module": "esnext",
+    "lib": ["dom", "dom.iterable", "esnext"],
     "jsx": "react-jsx",
     "allowJs": true,
     "skipLibCheck": true,
@@ -22,5 +30,30 @@
       "@/*": ["./src/renderer/*"]
     }
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
 }
+
+// {
+//   "compilerOptions": {
+//   "target": "esnext",
+//   "module": "esnext",
+//   "lib": ["dom", "dom.iterable", "esnext"],
+//   "isolatedModules": true,
+//   "allowJs": true,
+//   "skipLibCheck": true,
+//   "esModuleInterop": true,
+//   "noImplicitAny": true,
+//   "sourceMap": true,
+//   "baseUrl": ".",
+//   "outDir": "dist",
+//   "moduleResolution": "Node",
+//   "resolveJsonModule": true,
+//   "typeRoots": ["./types"],
+//   "types": ["vite/client", "@types/node"]
+//   },
+//   "include": ["src/*", "./types"],
+//   "exclude": ["node_modules"]
+
+
+//   }

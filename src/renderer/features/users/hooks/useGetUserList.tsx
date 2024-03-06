@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query"
+import { useQuery } from '@tanstack/react-query';
 
 export const useGetUserList = () => {
   return useQuery({
@@ -6,5 +6,5 @@ export const useGetUserList = () => {
     queryFn: () => {
       return window.sqlite.findAll();
     },
-  })
-}
+  });
+};
