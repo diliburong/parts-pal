@@ -9,7 +9,8 @@
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
-    "lint": "eslint --ext .ts,.tsx ."
+    "lint": "eslint --ext .ts,.tsx .",
+    "update-types": "npx supabase gen types typescript --project-id \"$PROJECT_REF\" --schema public > src/renderer/types/database.types.ts"
   },
   "keywords": [],
   "author": {
