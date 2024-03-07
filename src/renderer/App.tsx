@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
-import { BrowserRouter, Route, Routes, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { NextUIProvider } from '@nextui-org/react';
 import { QueryClientProvider } from '@tanstack/react-query';
 
-// import viteLogo from '/electron-vite.animate.svg'
 import './App.css';
 import { AppRoutes } from '@/routes';
 import { queryClient } from '@/lib/reactQuery';

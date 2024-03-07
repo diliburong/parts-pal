@@ -1,16 +1,33 @@
-import { Route, Routes, useNavigate, useRoutes } from "react-router-dom";
+import { Route, Routes, useNavigate, useRoutes } from 'react-router-dom';
+import { Auth } from '@supabase/auth-ui-react';
+import { ThemeSupa } from '@supabase/auth-ui-shared';
+import {
+  Tab,
+  Button,
+  Tabs,
+  Link,
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+} from '@nextui-org/react';
 
-import { Tab, Button, Tabs, Link, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@nextui-org/react";
-import { Users } from '../features/users';
+import { supabase } from '@/lib/supabase';
+
+import { Users } from '@/features/users';
+import { publicRoutes } from './public';
+import { protectedRoutes } from './protected';
+import { useEffect, useState } from 'react';
+import { Session } from '@supabase/supabase-js';
 
 const routesMap = [
   {
-    path: "/",
+    path: '/',
     element: <div>test</div>,
     exact: true,
   },
   {
-    path: "/two",
+    path: '/two',
     element: <Users />,
     exact: true,
   },
@@ -19,33 +36,42 @@ const routesMap = [
 export const AppRoutes = () => {
   // const routes = auth.user ? protectedRoutes : publicRoutes;
 
-  const element = useRoutes([...routesMap]);
+  const routes = false ? protectedRoutes : publicRoutes;
+
+  const element = useRoutes([...publicRoutes]);
   const navigate = useNavigate();
 
   const handleBtnClick = async () => {
     const result = await window.sqlite.insertUser();
 
     console.log(result);
-  }
+  };
 
-  return (
-    <>
-      <Button onClick={handleBtnClick}>Button</Button>
-      <div className="flex flex-col">
-        <Link href="/">Home</Link>
-        <Link href="/two">About</Link>
-      </div>
-      <Dropdown>
-        <DropdownTrigger>
-          <Button>Open</Button>
-        </DropdownTrigger>
-        <DropdownMenu aria-label="Navigation">
-          <DropdownItem key="home" onClick={()=> navigate('/')}>Home</DropdownItem>
-          <DropdownItem key="about" onClick={()=> navigate('/two')}>About</DropdownItem>
-        </DropdownMenu>
-      </Dropdown>
+  const [session, setSession] = useState<Session | null>(null);
 
-      {element}
-    </>
-  );
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      console.log(session);
+
+      setSession(session);
+    });
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      console.log(session);
+
+      setSession(session);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  // if (!session) {
+  //   return <Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} />;
+  // } else {
+  //   return <div>Logged in!</div>;
+  // }
+
+  return <>{element}</>;
 };

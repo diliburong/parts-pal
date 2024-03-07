@@ -47,6 +47,6 @@ window.ipcRenderer.on('main-process-message', (_event, message) => {
   console.log(message);
 });
 
-console.log(window.versions.supabaseUrl);
+console.log(window.versions.node());
 
 console.log('👋 This message is being logged by "renderer.ts", included via Vite');
