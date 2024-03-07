@@ -1,6 +1,4 @@
 import { Route, Routes, useNavigate, useRoutes } from 'react-router-dom';
-import { Auth } from '@supabase/auth-ui-react';
-import { ThemeSupa } from '@supabase/auth-ui-shared';
 import {
   Tab,
   Button,
