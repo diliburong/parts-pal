@@ -26,6 +26,7 @@
     "@electron-forge/maker-zip": "^7.2.0",
     "@electron-forge/plugin-auto-unpack-natives": "^7.2.0",
     "@electron-forge/plugin-vite": "^7.2.0",
+    "@iconify/react": "^4.1.1",
     "@types/better-sqlite3": "^7.6.9",
     "@types/node": "^20.11.24",
     "@types/react": "^18.2.54",
@@ -45,7 +46,9 @@
     "typescript": "~4.5.4"
   },
   "dependencies": {
-    "@nextui-org/react": "^2.2.9",
+    "@heroicons/react": "^2.1.3",
+    "@nextui-org/react": "^2.3.3",
+    "@supabase-cache-helpers/postgrest-react-query": "^1.6.2",
     "@supabase/supabase-js": "^2.39.7",
     "@tanstack/react-query": "^5.24.1",
     "better-sqlite3": "^9.4.0",

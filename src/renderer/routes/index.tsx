@@ -18,25 +18,10 @@ import { protectedRoutes } from './protected';
 import { useEffect, useState } from 'react';
 import { Session } from '@supabase/supabase-js';
 
-const routesMap = [
-  {
-    path: '/',
-    element: <div>test</div>,
-    exact: true,
-  },
-  {
-    path: '/two',
-    element: <Users />,
-    exact: true,
-  },
-];
-
 export const AppRoutes = () => {
-  // const routes = auth.user ? protectedRoutes : publicRoutes;
+  const routes = true ? protectedRoutes : publicRoutes;
 
-  const routes = false ? protectedRoutes : publicRoutes;
-
-  const element = useRoutes([...publicRoutes]);
+  const element = useRoutes([...protectedRoutes]);
   const navigate = useNavigate();
 
   const handleBtnClick = async () => {
